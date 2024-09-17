@@ -21,17 +21,12 @@
 
   position: relative;
 
-  background: rgba(244, 244, 244, 0.02);
-  transition: background 0.5s;
+  background-color: rgba(244, 244, 244, 0.02);
+  transition: background-color 0.5s ease-in-out;
 }
 
 .square:active {
-  background: radial-gradient(
-    circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
-    rgb(255, 50, 118),
-    rgb(255, 0, 85),
-    transparent 30vmin
-  );
+  background-color: rgb(255, 0, 85);
 }
 
 @media screen and (min-width: 1024px) {
