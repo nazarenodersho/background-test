@@ -44,7 +44,7 @@
   pointer-events: none;
 }
 
-.square:before {
+/* .square:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -62,4 +62,4 @@
     linear-gradient(white, white) 0 50% / 4px 100%,
     linear-gradient(white, white) 100% 50% / 4px 100%;
   mask-repeat: no-repeat;
-}
+} */
