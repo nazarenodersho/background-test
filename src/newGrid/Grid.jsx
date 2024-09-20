@@ -6,29 +6,24 @@ export function Grid() {
 
   useEffect(() => {
     const gridElement = gridRef.current;
-
-    const squares = gridElement.querySelectorAll(`.${styles.square}`);
-
     const handleMove = (e) => {
       const pageX = e.touches ? e.touches[0].pageX : e.pageX;
       const pageY = e.touches ? e.touches[0].pageY : e.pageY;
 
-      squares.forEach((square) => {
+      const squareElements = document
+        .elementsFromPoint(pageX, pageY)
+        .filter((el) => el.classList.contains(styles.square));
+
+      if (squareElements.length > 0) {
+        const square = squareElements[0];
+
         const rect = square.getBoundingClientRect();
-        const isWithinBounds =
-          pageX >= rect.left &&
-          pageX <= rect.right &&
-          pageY >= rect.top &&
-          pageY <= rect.bottom;
+        const x = pageX - rect.left;
+        const y = pageY - rect.top;
 
-        if (isWithinBounds) {
-          const x = pageX - rect.left;
-          const y = pageY - rect.top;
-
-          square.style.setProperty("--x", `${x}px`);
-          square.style.setProperty("--y", `${y}px`);
-        }
-      });
+        square.style.setProperty("--x", `${x}px`);
+        square.style.setProperty("--y", `${y}px`);
+      }
     };
 
     gridElement.addEventListener("mousemove", handleMove);
