@@ -5,26 +5,39 @@ export function Grid() {
   const gridRef = useRef(null);
 
   useEffect(() => {
-    const squares = gridRef.current.querySelectorAll(`.${styles.square}`);
+    const gridElement = gridRef.current;
 
-    squares.forEach((square) => {
-      const handleMove = (e) => {
-        const x =
-          (e.touches ? e.touches[0].pageX : e.pageX) - square.offsetLeft;
-        const y = (e.touches ? e.touches[0].pageY : e.pageY) - square.offsetTop;
+    const squares = gridElement.querySelectorAll(`.${styles.square}`);
 
-        square.style.setProperty("--x", `${x}px`);
-        square.style.setProperty("--y", `${y}px`);
-      };
+    const handleMove = (e) => {
+      const pageX = e.touches ? e.touches[0].pageX : e.pageX;
+      const pageY = e.touches ? e.touches[0].pageY : e.pageY;
 
-      square.addEventListener("mousemove", handleMove);
-      square.addEventListener("touchmove", handleMove);
+      squares.forEach((square) => {
+        const rect = square.getBoundingClientRect();
+        const isWithinBounds =
+          pageX >= rect.left &&
+          pageX <= rect.right &&
+          pageY >= rect.top &&
+          pageY <= rect.bottom;
 
-      return () => {
-        square.removeEventListener("mousemove", handleMove);
-        square.removeEventListener("touchmove", handleMove);
-      };
-    });
+        if (isWithinBounds) {
+          const x = pageX - rect.left;
+          const y = pageY - rect.top;
+
+          square.style.setProperty("--x", `${x}px`);
+          square.style.setProperty("--y", `${y}px`);
+        }
+      });
+    };
+
+    gridElement.addEventListener("mousemove", handleMove);
+    gridElement.addEventListener("touchmove", handleMove);
+
+    return () => {
+      gridElement.removeEventListener("mousemove", handleMove);
+      gridElement.removeEventListener("touchmove", handleMove);
+    };
   }, []);
 
   const squares = Array.from({ length: 120 }, (_, i) => (
