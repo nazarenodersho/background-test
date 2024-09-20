@@ -21,45 +21,53 @@
 
   position: relative;
 
-  background-color: rgba(244, 244, 244, 0.02);
+  /* background-color: rgba(244, 244, 244, 0.02); */
+  background-color: #141414;
+  transition: background-color 0.5s ease-in-out;
+  border-radius: 10px;
 }
 
 .square:hover {
   --active: 1;
 }
 
-.square:after {
+.square::before {
   content: "";
   position: absolute;
+  z-index: 1;
   inset: 0;
   background: radial-gradient(
     circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
     rgb(255, 50, 118),
     rgb(255, 0, 85),
-    transparent 30vmin
+    transparent 5vmin
   );
   background-attachment: fixed;
-  opacity: var(--active, 0);
   transition: opacity 0.5s ease-in-out;
   pointer-events: none;
+  mask: linear-gradient(white, white) 50% 0 / 100% 5px,
+    linear-gradient(white, white) 50% 100% / 100% 5px,
+    linear-gradient(white, white) 0 50% / 5px 100%,
+    linear-gradient(white, white) 100% 50% / 5px 100%;
+  mask-repeat: no-repeat;
+  border-radius: 10px;
 }
 
-/* .square:before {
+.square::after {
   content: "";
   position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
   inset: 0;
-  background: radial-gradient(
-    circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
-    rgb(255, 50, 118),
-    rgb(255, 0, 85),
-    transparent 10vmin
-  );
-  background-attachment: fixed;
-  transition: opacity 0.5s ease-in-out;
+  background-color: #141414;
+  margin: 2px;
+  transition: background-color 0.5s ease-in-out, margin 0.5s ease-in-out;
   pointer-events: none;
-  mask: linear-gradient(white, white) 50% 0 / 100% 4px,
-    linear-gradient(white, white) 50% 100% / 100% 4px,
-    linear-gradient(white, white) 0 50% / 4px 100%,
-    linear-gradient(white, white) 100% 50% / 4px 100%;
-  mask-repeat: no-repeat;
-} */
+  border-radius: 10px;
+}
+
+.square:hover::after {
+  background-color: rgb(255, 0, 85);
+  margin: 0;
+}
