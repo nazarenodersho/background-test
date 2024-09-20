@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { Grid } from "./home/Grid";
+import { Grid } from "./grid/Grid";
 
 import "./index.css";
 
