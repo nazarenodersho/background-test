@@ -22,51 +22,44 @@
   position: relative;
 
   background-color: rgba(244, 244, 244, 0.02);
-  transition: background-color 0.5s ease-in-out;
 }
 
-.square:active {
-  background-color: rgb(255, 0, 85);
+.square:hover {
+  --active: 1;
 }
 
-@media screen and (min-width: 1024px) {
-  .square:hover {
-    --active: 1;
-  }
+.square:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+    rgb(255, 50, 118),
+    rgb(255, 0, 85),
+    transparent 30vmin
+  );
+  background-attachment: fixed;
+  opacity: var(--active, 0);
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}
 
-  .square:after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
-      rgb(255, 50, 118),
-      rgb(255, 0, 85),
-      transparent 30vmin
-    );
-    background-attachment: fixed;
-    opacity: var(--active, 0);
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none;
-  }
-
-  .square:before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
-      rgb(255, 50, 118),
-      rgb(255, 0, 85),
-      transparent 10vmin
-    );
-    background-attachment: fixed;
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none;
-    mask: linear-gradient(white, white) 50% 0 / 100% 4px,
-      linear-gradient(white, white) 50% 100% / 100% 4px,
-      linear-gradient(white, white) 0 50% / 4px 100%,
-      linear-gradient(white, white) 100% 50% / 4px 100%;
-    mask-repeat: no-repeat;
-  }
+.square:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+    rgb(255, 50, 118),
+    rgb(255, 0, 85),
+    transparent 10vmin
+  );
+  background-attachment: fixed;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+  mask: linear-gradient(white, white) 50% 0 / 100% 4px,
+    linear-gradient(white, white) 50% 100% / 100% 4px,
+    linear-gradient(white, white) 0 50% / 4px 100%,
+    linear-gradient(white, white) 100% 50% / 4px 100%;
+  mask-repeat: no-repeat;
 }
