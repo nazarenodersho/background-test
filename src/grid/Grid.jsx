@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import styles from "./grid.module.css";
 
 export function Grid() {
@@ -5,12 +7,59 @@ export function Grid() {
     <div key={i} className={styles.square}></div>
   ));
 
-  const updateCursor = ({ x, y }) => {
-    document.documentElement.style.setProperty("--x", x);
-    document.documentElement.style.setProperty("--y", y);
-  };
+  useEffect(() => {
+    const updateCursor = ({ clientX, clientY }) => {
+      document.documentElement.style.setProperty("--x", clientX);
+      document.documentElement.style.setProperty("--y", clientY);
+    };
 
-  document.body.addEventListener("pointermove", updateCursor);
+    const activateEffect = () => {
+      document.documentElement.style.setProperty("--active", 0);
+    };
+
+    const deactivateEffect = () => {
+      document.documentElement.style.setProperty("--active", 0);
+    };
+
+    document.body.addEventListener("pointermove", updateCursor);
+    document.body.addEventListener("pointerover", activateEffect);
+    document.body.addEventListener("pointerout", deactivateEffect);
+
+    const handleTouchStart = (e) => {
+      const touch = e.touches[0];
+      if (touch) {
+        updateCursor(touch);
+        activateEffect();
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      const touch = e.touches[0];
+      if (touch) {
+        updateCursor(touch);
+      }
+    };
+
+    const handleTouchEnd = () => {
+      deactivateEffect();
+    };
+
+    document.body.addEventListener("touchstart", handleTouchStart);
+    document.body.addEventListener("touchmove", handleTouchMove);
+    document.body.addEventListener("touchend", handleTouchEnd);
+    document.body.addEventListener("touchcancel", handleTouchEnd);
+
+    return () => {
+      document.body.removeEventListener("pointermove", updateCursor);
+      document.body.removeEventListener("pointerover", activateEffect);
+      document.body.removeEventListener("pointerout", deactivateEffect);
+
+      document.body.removeEventListener("touchstart", handleTouchStart);
+      document.body.removeEventListener("touchmove", handleTouchMove);
+      document.body.removeEventListener("touchend", handleTouchEnd);
+      document.body.removeEventListener("touchcancel", handleTouchEnd);
+    };
+  }, []);
 
   return <div className={styles.grid}>{squares}</div>;
 }
